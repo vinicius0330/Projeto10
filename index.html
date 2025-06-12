@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./src/css/estilo.css"> <!-- CSS externo -->
+    <!-- CSS externo -->
+    <link rel="stylesheet" href="./src/css/estilo.css"> 
+    <!-- Framework externo -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Lista Tarefas</title>
 </head>
 <body>
@@ -18,8 +21,10 @@
         </p>
         <button id="adicionarTarefa" onclick="adicionarTarefa()">Adicionar Tarefa</button>
         <button id="removerTarefa" onclick="removerTarefa()">Remover Tarefa</button>
+        <p id="lista"></p>
     </main>
     
-    <script src="./src/js/script.js"></script>  <!-- JS externo -->
+    <!-- JS externo -->
+    <script src="./src/js/script.js"></script>  
 </body>
 </html>
