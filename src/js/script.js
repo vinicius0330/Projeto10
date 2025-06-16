@@ -1,19 +1,19 @@
-// Declaração de variáveis
+//DECLARAÇÃO DE VARIAVEIS 
 let tarefa =[];
 
-// Função de validação
+//FUNÇÃO DE VALIDAÇÃO
 const validarCampo=()=>{
     let valida =false;
     if(document.getElementById("task").value == "") valida=true;
     return valida;
 }
 
-// Função adicionar tarefa
+//FUNÇÃO ADICIONAR TAREFA
 function adicionarTarefa(){
     let linha =document.getElementById("task")
 
     if(validarCampo()){
-        // alert("Preencha o campo Tarefa")
+        //alert("Preencha o campo Tarefa")
         Swal.fire({
             icon:"warning",
             title:"Atenção",
@@ -28,43 +28,89 @@ function adicionarTarefa(){
         listarTarefas();
         Swal.fire({
             icon:"success",
-            title:"Tarefa adicionado com sucesso",
+            title:"Tarefa Adicionada com sucesso",
             showConfirmButton:false,
-            timer:1500,
+            timer:1500
         })
     }
 }
 
-// Função listar tarefa
+//FUNÇÃO PARA ADICIONAR COM O BOTÃO ENTER
+const taskInput =document.getElementById("task");
+
+if(taskInput){
+    taskInput.addEventListener('keypress',(e)=>{
+    if(e.key === 'Enter'){
+        e.preventDefault();
+        adicionarTarefa();
+    }
+})
+}
+
+//FUNÇÃO LISTAR TAREFAS
 function listarTarefas(){
     let valor="";
     for(let i =0; i < tarefa.length;i++){
-        valor+= tarefa[i] + "<br>";
+        valor += `
+            <div class="task-item">
+                <span>${tarefa[i]}</span>
+                <button onclick="editarTarefa(${i})">Editar</button>
+                <button onclick="removerTarefa(${i})">Remover</button>
+            </div>
+        
+        `
     }
     document.getElementById("lista").innerHTML =valor;
 }
 
-// Função remover tarefa
-function removerTarefa(){
+//FUNÇÃO REMOVER TAREFA
+function removerTarefa(i){
 
     Swal.fire({
         icon:"warning",
-        title:"Tem certeza que deseja apagar?",
-        text:"Essa tarefa será APAGADA",
+        title:"Tem certeza que deseja Apagar ?",
+        text:"Essa tarefa será apagada",
         showCancelButton:true,
-        confirmButtonColor:"#6b095bff",
-        confirmButtonText:"Sim, apagar",
-        cancelButtonColor:"red",
+        confirmButtonColor:"#6B095BFF",
+        confirmButtonText:"Sim",
         cancelButtonText:"Cancelar",
     }).then((result)=>{
         if(result.isConfirmed){
-            tarefa.pop(); //Remove o último item adicionado
+            tarefa.splice(i,1);
             listarTarefas();
             Swal.fire(
                 "Apagado",
                 "A tarefa foi removida da lista",
-                "success",
+                "success"
             )
         }
     })
+}
+
+//FUNÇÃO EDITAR TAREFA
+function editarTarefa(indice){
+    document.getElementById("task").value = tarefa[indice];
+    indiceEditar = indice;
+    document.getElementById("task").focus();
+}
+
+//FUNÇÃO SALVAR TAREFA
+function salvarTarefa(){
+    if(validarCampo()){
+        alert("Preencha o campo tarefa")
+    }else if(indiceEditar !== -1){
+        tarefa[indiceEditar]=document.getElementById("task").value;
+        document.getElementById("task").value ="";
+        listarTarefas();
+        Swal.fire({
+            icon:"success",
+            title:"Tarefa Alterada",
+            showConfirmButton:false,
+            timer:1500
+        })
+    }
+    else{
+        console.log("nenhuma tarefa selecionada")
+    }
+    document.getElementById("task").focus();
 }
